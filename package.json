@@ -1,15 +1,13 @@
 {
-  "name": "mc-bot-2026",
+  "name": "mc-bot-afk",
   "version": "1.0.0",
   "main": "index.js",
+  "dependencies": {
+    "mineflayer": "latest",
+    "minecraft-protocol": "latest",
+    "minecraft-data": "latest"
+  },
   "scripts": {
     "start": "node index.js"
-  },
-  "dependencies": {
-    "mineflayer": "^4.20.0",
-    "minecraft-data": "^3.77.0"
-  },
-  "engines": {
-    "node": "20.x"
   }
 }
