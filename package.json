@@ -1,7 +1,6 @@
 {
-  "name": "mc-bot-afk",
+  "name": "afk-bot-2026",
   "version": "1.0.0",
-  "description": "Bot para FalixNodes",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
