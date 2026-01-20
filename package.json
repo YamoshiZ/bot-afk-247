@@ -1,7 +1,15 @@
 {
-  "name": "bot-afk",
+  "name": "mc-afk-bot",
   "version": "1.0.0",
+  "description": "Bot para mantener servidor activo",
   "main": "index.js",
-  "scripts": { "start": "node index.js" },
-  "dependencies": { "mineflayer": "^4.20.0" }
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "mineflayer": "^4.20.0"
+  },
+  "engines": {
+    "node": "20.x"
+  }
 }
