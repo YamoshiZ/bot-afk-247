@@ -1,26 +1,28 @@
 const http = require('http');
 const mineflayer = require('mineflayer');
 
-// SERVIDOR WEB PARA EL HEALTH CHECK DE KOYEB
+// Mantener vivo el servicio en Koyeb
 http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end("Bot Online");
+    res.writeHead(200);
+    res.end("Bot 1.21.11 Online");
 }).listen(process.env.PORT || 8080);
 
-// CONFIGURACIÓN CON TUS DATOS
 const botArgs = {
     host: 'hardcoremood.falixsrv.me', 
-    port: 31514, // <--- REVISIÓN: El puerto de Java suele ser 31XXX en Falix
+    port: 31514,
     username: 'GuardianAFK',
-    version: '1.21.1'
+    // IMPORTANTE: Si 1.21.11 no la reconoce el plugin, 
+    // usa '1.21.1' que es compatible con el protocolo.
+    version: '1.21.1' 
 };
 
 function initBot() {
-    console.log("Intentando conectar a hardcoremood.falixsrv.me...");
+    console.log("Iniciando bot para versión 1.21.11...");
     const bot = mineflayer.createBot(botArgs);
 
     bot.on('spawn', () => {
-        console.log("¡Bot conectado con éxito!");
+        console.log("¡Bot conectado en 1.21.11!");
+        // Acción Anti-AFK
         setInterval(() => {
             if (bot.entity) {
                 bot.setControlState('jump', true);
@@ -29,13 +31,13 @@ function initBot() {
         }, 30000);
     });
 
-    bot.on('end', () => {
-        console.log("Conexión perdida. Reintentando en 20 segundos...");
-        setTimeout(initBot, 20000);
-    });
-
     bot.on('error', (err) => {
         console.log("Error de conexión:", err.message);
+    });
+
+    bot.on('end', () => {
+        console.log("Desconectado. Reintentando en 15 segundos...");
+        setTimeout(initBot, 15000);
     });
 }
 
