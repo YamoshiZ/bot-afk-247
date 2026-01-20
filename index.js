@@ -1,37 +1,42 @@
-// ======================================================
-// 1. CONFIGURACIÓN DEL SERVIDOR WEB (Para Koyeb)
-// ======================================================
+// ==========================================
+// SECCIÓN 1: SERVIDOR WEB PARA KOYEB
+// Esto evita el error "Service Unhealthy"
+// ==========================================
 const http = require('http');
 
-// Esto responde a la señal de Koyeb para que el bot no se apague
-http.createServer((req, res) => {
+const server = http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.write("Bot Anti-Hibernacion FalixNodes Activo 24/7");
+    res.write("Bot Anti-Hibernación FalixNodes 2026 - Activo");
     res.end();
-}).listen(process.env.PORT || 8080); // Koyeb usa el puerto 8080 por defecto
+});
 
-console.log("Servidor HTTP interno iniciado para Koyeb.");
+// Koyeb usa el puerto 8080 por defecto
+const PORT = process.env.PORT || 8080;
+server.listen(PORT, () => {
+    console.log(`Servidor HTTP interno escuchando en puerto ${PORT}`);
+});
 
-// ======================================================
-// 2. CONFIGURACIÓN DEL BOT DE MINECRAFT (Mineflayer)
-// ======================================================
+// ==========================================
+// SECCIÓN 2: BOT DE MINECRAFT (MINEFLAYER)
+// ==========================================
 const mineflayer = require('mineflayer');
 
 const botArgs = {
-    host: 'hardcoremood.falixsrv.me', // <-- REEMPLAZA CON TU IP DE FALIX
-    port: 31514,                     // <-- REEMPLAZA CON TU PUERTO (ej: 25565)
-    username: 'GuardianAFK',         // Nombre que tendrá el bot dentro del juego
-    version: '1.21.1'                // Tu versión del servidor
+    host: 'hardcoremood.falixsrv.me', // <--- CAMBIA ESTO POR TU IP
+    port: 31514,                // <--- CAMBIA ESTO POR TU PUERTO
+    username: 'GuardianAFK',    // Nombre del bot en el juego
+    version: '1.21.1'           // Versión de tu servidor
 };
 
 function initBot() {
+    console.log("Iniciando conexión con el servidor de Minecraft...");
     const bot = mineflayer.createBot(botArgs);
 
-    // Evento cuando el bot entra exitosamente
+    // Evento cuando el bot entra al mundo
     bot.on('spawn', () => {
-        console.log("¡Bot conectado al servidor de Minecraft!");
+        console.log("¡Bot conectado exitosamente!");
         
-        // Anti-AFK: El bot saltará cada 30 segundos para no ser expulsado
+        // Anti-AFK: El bot saltará cada 30 segundos
         setInterval(() => {
             if (bot.entity) {
                 bot.setControlState('jump', true);
@@ -40,17 +45,17 @@ function initBot() {
         }, 30000);
     });
 
-    // Auto-reconexión si el bot se cae o el servidor se reinicia
+    // Auto-reconexión si el servidor se reinicia o lo expulsa
     bot.on('end', () => {
-        console.log("Conexión perdida. Intentando reconectar en 15 segundos...");
+        console.log("Conexión perdida con Minecraft. Reconectando en 15 segundos...");
         setTimeout(initBot, 15000);
     });
 
-    // Manejo de errores para evitar que el bot se detenga por completo
+    // Evitar que el bot se cierre por errores internos
     bot.on('error', (err) => {
-        console.log("Error detectado:", err.message);
+        console.log("Error de Mineflayer:", err.message);
     });
 }
 
-// Lanzar el bot
+// Arrancar el bot
 initBot();
