@@ -6,6 +6,10 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "mineflayer": "4.20.0"
+    "mineflayer": "^4.20.0",
+    "minecraft-data": "^3.77.0"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
